@@ -1,9 +1,18 @@
-const KodePos = require('./kodepos');
+// index.js
+const DoorMachine = require('./doormachine');
+const getKodePos = require('./kodepos');
 
-// Program utama
-const kodePosLookup = new KodePos();
+const myDoor = new DoorMachine(); // Pintu awalnya terkunci
 
-// Contoh pemanggilan method getKodePos
-console.log(kodePosLookup.getKodePos("Batununggal")); // Output: 40266
-console.log(kodePosLookup.getKodePos("Kujangsari")); // Output: 40287
-console.log(kodePosLookup.getKodePos("TidakAda"));   // Output: Kode pos tidak ditemukan
+setTimeout(() => {
+    myDoor.unlock(); // Buka pintu setelah 2 detik
+}, 2000);
+
+setTimeout(() => {
+    myDoor.lock(); // Kunci kembali setelah 4 detik
+}, 4000);
+
+// Contoh penggunaan kodepos.js
+console.log("Kode Pos Jakarta:", getKodePos("Jakarta"));
+console.log("Kode Pos Surabaya:", getKodePos("Surabaya"));
+console.log("Kode Pos Bali:", getKodePos("Bali")); // Tidak ditemukan
