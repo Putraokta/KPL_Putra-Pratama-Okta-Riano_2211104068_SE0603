@@ -1,19 +1,32 @@
 class SayaTubeVideo {
-    constructor(title) {
-      this.id = Math.floor(10000 + Math.random() * 90000);
-      this.title = title;
-      this.playCount = 0;
+  constructor(title) {
+    if (!title || title.length > 200) {
+      throw new Error("Judul video tidak valid.");
     }
-  
-    IncreasePlayCount(count) {
+    this.id = Math.floor(10000 + Math.random() * 90000);
+    this.title = title;
+    this.playCount = 0;
+  }
+
+  IncreasePlayCount(count) {
+    if (count <= 0 || count > 25000000) {
+      throw new Error("Input play count tidak valid.");
+    }
+    try {
+      if (this.playCount + count > Number.MAX_SAFE_INTEGER) {
+        throw new Error("Overflow play count.");
+      }
       this.playCount += count;
-    }
-  
-    PrintVideoDetails() {
-      console.log(`ID: ${this.id}`);
-      console.log(`Judul: ${this.title}`);
-      console.log(`Jumlah Putar: ${this.playCount}`);
+    } catch (error) {
+      console.error("Terjadi exception:", error.message);
     }
   }
-  
-  module.exports = SayaTubeVideo;
+
+  PrintVideoDetails() {
+    console.log(`ID: ${this.id}`);
+    console.log(`Judul: ${this.title}`);
+    console.log(`Jumlah Putar: ${this.playCount}`);
+  }
+}
+
+module.exports = SayaTubeVideo;
