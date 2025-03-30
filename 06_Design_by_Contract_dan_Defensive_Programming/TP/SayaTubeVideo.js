@@ -21,7 +21,7 @@ class SayaTubeVideo {
         console.error("Terjadi exception:", error.message);
       }
     }
-  
+    
     PrintVideoDetails() {
       console.log(`ID: ${this.id}`);
       console.log(`Judul: ${this.title}`);
