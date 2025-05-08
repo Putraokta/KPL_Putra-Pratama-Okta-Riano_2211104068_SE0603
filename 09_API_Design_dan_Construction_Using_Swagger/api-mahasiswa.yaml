@@ -1,0 +1,303 @@
+openapi: 3.0.0
+info:
+  version: 3.0.0
+  title: Manajemen Mahasiswa API
+  description: API untuk mengelola data Mahasiswa dan alamat
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/putraokta/Putraokta/3.0.0
+
+tags:
+  - name: mahasiswa
+    description: Endpoint untuk manajemen mahasiswa
+  - name: address
+    description: Endpoint untuk manajemen address
+
+paths:
+  /mahasiswa:
+    get:
+      tags:
+        - mahasiswa
+      summary: Ambil semua data mahasiswa
+      responses:
+        '200':
+          description: Daftar mahasiswa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mahasiswa'
+    post:
+      tags:
+        - mahasiswa
+      summary: Tambahkan data mahasiswa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MahasiswaInput'
+      responses:
+        '201':
+          description: Mahasiswa berhasil ditambahkan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mahasiswa'
+
+  /mahasiswa/{nim}:
+    get:
+      tags:
+        - mahasiswa
+      summary: Ambil detail mahasiswa berdasarkan NIM
+      parameters:
+        - in: path
+          name: nim
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detail mahasiswa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mahasiswa'
+        '404':
+          description: Mahasiswa tidak ditemukan
+    put:
+      tags:
+        - mahasiswa
+      summary: Perbarui data mahasiswa berdasarkan NIM
+      parameters:
+        - in: path
+          name: nim
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MahasiswaInput'
+      responses:
+        '200':
+          description: Mahasiswa berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mahasiswa'
+        '404':
+          description: Mahasiswa tidak ditemukan
+    delete:
+      tags:
+        - mahasiswa
+      summary: Hapus data mahasiswa berdasarkan NIM
+      parameters:
+        - in: path
+          name: nim
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Mahasiswa berhasil dihapus
+        '404':
+          description: Mahasiswa tidak ditemukan
+
+  /address:
+    get:
+      tags:
+        - address
+      summary: Ambil semua data alamat
+      responses:
+        '200':
+          description: Daftar alamat
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+    post:
+      tags:
+        - address
+      summary: Tambahkan alamat mahasiswa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressInput'
+      responses:
+        '201':
+          description: Alamat berhasil ditambahkan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+
+  /address/{id}:
+    get:
+      tags:
+        - address
+      summary: Ambil alamat berdasarkan ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detail alamat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '404':
+          description: Alamat tidak ditemukan
+    put:
+      tags:
+        - address
+      summary: Perbarui alamat berdasarkan ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressInput'
+      responses:
+        '200':
+          description: Alamat berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '404':
+          description: Alamat tidak ditemukan
+    delete:
+      tags:
+        - address
+      summary: Hapus alamat berdasarkan ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Alamat berhasil dihapus
+        '404':
+          description: Alamat tidak ditemukan
+
+components:
+  schemas:
+    Mahasiswa:
+      type: object
+      properties:
+        nim:
+          type: string
+          example: "2211104068"
+        nama_lengkap:
+          type: string
+          example: "Putra Pratama Okta Riano"
+        email:
+          type: string
+          example: "oputra830@gmail.com"
+        no_hp:
+          type: string
+          example: "088216047910"
+        tanggal_lahir:
+          type: string
+          format: date
+          example: "2004-10-16"
+        jenis_kelamin:
+          type: string
+          enum: [laki-laki, perempuan]
+
+    MahasiswaInput:
+      type: object
+      required:
+        - nim
+        - nama_lengkap
+        - email
+        - no_hp
+        - tanggal_lahir
+        - jenis_kelamin
+      properties:
+        nim:
+          type: string
+          example: "2211104068"
+        nama_lengkap:
+          type: string
+          example: "Putra Pratama Okta Riano"
+        email:
+          type: string
+          example: "oputra830@gmail.com"
+        no_hp:
+          type: string
+          example: "088216047910"
+        tanggal_lahir:
+          type: string
+          format: date
+          example: "2004-10-16"
+        jenis_kelamin:
+          type: string
+          enum: [laki-laki, perempuan]
+
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nim:
+          type: string
+          example: "2211104068"
+        jalan:
+          type: string
+          example: "Jl. Yos Sudarso, Gg. Kokosan II"
+        kota:
+          type: string
+          example: "Purwokerto"
+        provinsi:
+          type: string
+          example: "Jawa Tengah"
+        kode_pos:
+          type: string
+          example: "53134"
+
+    AddressInput:
+      type: object
+      required:
+        - nim
+        - jalan
+        - kota
+        - provinsi
+        - kode_pos
+      properties:
+        nim:
+          type: string
+          example: "2211104068"
+        jalan:
+          type: string
+          example: "Jl. Yos Sudarso, Gg. Kokosan II"
+        kota:
+          type: string
+          example: "Purwokerto"
+        provinsi:
+          type: string
+          example: "Jawa Tengah"
+        kode_pos:
+          type: string
+          example: "53134"
